@@ -11,7 +11,9 @@ class NewsletterSubscriptionController
     {
         $emailList = $request->emailList();
 
-        Subscriber::createWithEmail($request->email)->subscribeTo($emailList);
+        Subscriber::createWithEmail($request->email)
+            ->redirectAfterSubscribed(action([static::class, 'confirmed']))
+            ->subscribeTo($emailList);
 
         return redirect()->action([static::class, 'confirm']);
     }
